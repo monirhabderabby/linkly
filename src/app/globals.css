@@ -79,6 +79,15 @@ body::before {
   z-index: 1;
 }
 
+.auth {
+  min-height: 100vh;
+  width: 100%;
+  background-image: url("/Swirl.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: -999;
+}
+
 body div {
   position: relative;
   z-index: 2;
