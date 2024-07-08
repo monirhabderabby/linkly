@@ -94,7 +94,6 @@ body div {
 }
 
 .gradient {
-  text-transform: uppercase;
   background: linear-gradient(
     to right,
     #144ee3 0%,

@@ -9,7 +9,7 @@ const Navbar = () => {
   const { userId } = auth();
 
   return (
-    <div className="container w-full flex justify-between h-[60px] items-center ">
+    <div className="container w-full flex justify-between h-[80px] items-center ">
       <Link href="/" className="gradient text-[36px] font-bold">
         Linkly
       </Link>
