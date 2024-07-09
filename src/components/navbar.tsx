@@ -14,6 +14,9 @@ const Navbar = () => {
         Linkly
       </Link>
       <div className="flex items-center gap-x-4">
+        <Link href="/dashboard" className="text-[14px] text-muted-foreground ">
+          Dashboard
+        </Link>
         {userId ? (
           <UserButton />
         ) : (

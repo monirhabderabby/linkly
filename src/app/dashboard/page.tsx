@@ -1,8 +1,24 @@
 import CreateUrlDialog from "@/components/ui/create-url-dialog";
+import prisma from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
+import { LucideIcon } from "lucide-react";
+import DashboardTabs from "./_components/dash-tabs/dash-tabs";
+
+export type tabsProps = {
+  id: number;
+  icon: LucideIcon;
+  text: string;
+};
 
 const Dashboard = async () => {
   const user = await currentUser();
+
+  const urls = await prisma.urls.findMany({
+    where: {
+      userId: user?.id,
+    },
+  });
+
   return (
     <div className=" ">
       <div className="border-b border-t bg-card">
@@ -13,6 +29,7 @@ const Dashboard = async () => {
           </div>
         </div>
       </div>
+      <DashboardTabs urls={urls} />
     </div>
   );
 };

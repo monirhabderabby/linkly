@@ -1,9 +1,8 @@
 import Navbar from "@/components/navbar";
-import { ThemeProvider } from "@/provider/theme-provider";
+import RootProvider from "@/provider/root-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from "sonner";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -22,17 +21,10 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <RootProvider>
             <Navbar />
             {children}
-
-            <Toaster />
-          </ThemeProvider>
+          </RootProvider>
         </body>
       </html>
     </ClerkProvider>

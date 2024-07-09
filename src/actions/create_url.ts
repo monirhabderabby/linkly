@@ -6,7 +6,7 @@ import { createUrlSchema, createUrlSchemaType } from "@/schema/url";
 import { auth } from "@clerk/nextjs/server";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
-export const createShortlink = async (data: createUrlSchemaType) => {
+export const createShortlinkAction = async (data: createUrlSchemaType) => {
   const parsedBody = createUrlSchema.safeParse(data);
 
   const user = auth();
@@ -35,6 +35,7 @@ export const createShortlink = async (data: createUrlSchemaType) => {
         userId: user.userId as string,
         original_url: parsedBody.data.original_url,
         short_url: shortlink,
+        name: parsedBody.data.name || null,
       },
     });
     return {

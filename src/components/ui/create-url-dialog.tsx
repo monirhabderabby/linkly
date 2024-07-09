@@ -1,6 +1,6 @@
 "use client";
 
-import { createShortlink } from "@/actions/create_url";
+import { createShortlinkAction } from "@/actions/create_url";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,8 +12,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { isShortLinksExists } from "@/helper/isShortLinkExists";
+import { useOrigin } from "@/hooks/useOrigin";
 import { createUrlSchema, createUrlSchemaType } from "@/schema/url";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { debounce } from "lodash";
 import { BadgeCheckIcon, CircleXIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -27,11 +29,11 @@ import { Form, FormDescription, FormField, FormItem } from "./form";
 import { Input } from "./input";
 
 const CreateUrlDialog = () => {
-  const [isPending, startTransition] = useTransition();
   const [isLoading, startShortLinkChecking] = useTransition();
   const [open, setOpen] = useState<true | false>(false);
 
   const router = useRouter();
+  const origin = useOrigin();
 
   const form = useForm<createUrlSchemaType>({
     resolver: zodResolver(createUrlSchema),
@@ -39,6 +41,25 @@ const CreateUrlDialog = () => {
       name: "",
       original_url: "",
       short_url: "",
+    },
+  });
+
+  // mutation function to create shortlink
+  const { mutate, isPending } = useMutation({
+    mutationFn: createShortlinkAction,
+    onSuccess: (res) => {
+      if (res.error) {
+        toast.error(res.error);
+        return;
+      } else if (res.success) {
+        toast.success(res.success);
+        router.refresh();
+        form.reset();
+        setOpen((prev) => !prev);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
     },
   });
 
@@ -65,24 +86,9 @@ const CreateUrlDialog = () => {
     });
   };
 
+  // handle form submit
   const onSubmit = (values: createUrlSchemaType) => {
-    startTransition(() => {
-      createShortlink(values)
-        .then((res) => {
-          if (res.error) {
-            toast.error(res.error);
-            return;
-          } else {
-            toast.success(res.success);
-            router.refresh();
-            form.reset();
-            setOpen((prev) => !prev);
-          }
-        })
-        .catch((error) => {
-          toast.error(error.message);
-        });
-    });
+    mutate(values);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -134,7 +140,7 @@ const CreateUrlDialog = () => {
                 <FormItem>
                   <div className="flex items-center gap-x-2">
                     <Card className="h-10 text-xs px-2 flex items-center">
-                      linkly.vercel.app
+                      {origin}
                     </Card>
                     /
                     <div className="relative w-full">
