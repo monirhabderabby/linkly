@@ -9,30 +9,35 @@ const Navbar = () => {
   const { userId } = auth();
 
   return (
-    <div className="container w-full flex justify-between h-[80px] items-center ">
-      <Link href="/" className="gradient text-[36px] font-bold">
-        Linkly
-      </Link>
-      <div className="flex items-center gap-x-4">
-        <Link href="/dashboard" className="text-[14px] text-muted-foreground ">
-          Dashboard
+    <section className=" shadow-md">
+      <div className=" container w-full flex justify-between h-[80px] items-center">
+        <Link href="/" className="gradient text-[36px] font-bold">
+          Linkly
         </Link>
-        {userId ? (
-          <UserButton />
-        ) : (
-          <Link href="/sign-in">
-            <ButtonAnimation
-              variant="expandIcon"
-              Icon={LogInIcon}
-              iconPlacement="right"
-            >
-              Login
-            </ButtonAnimation>
+        <div className="flex items-center gap-x-4">
+          <Link
+            href="/dashboard"
+            className="text-[14px] text-muted-foreground "
+          >
+            Dashboard
           </Link>
-        )}
-        <ThemeSwitch />
+          {userId ? (
+            <UserButton />
+          ) : (
+            <Link href="/sign-in">
+              <ButtonAnimation
+                variant="expandIcon"
+                Icon={LogInIcon}
+                iconPlacement="right"
+              >
+                Login
+              </ButtonAnimation>
+            </Link>
+          )}
+          <ThemeSwitch />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

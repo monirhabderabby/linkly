@@ -2,7 +2,7 @@ import CreateUrlDialog from "@/components/ui/create-url-dialog";
 import prisma from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { LucideIcon } from "lucide-react";
-import DashboardTabs from "./_components/dash-tabs/dash-tabs";
+import History from "./_components/dash-tabs/history/history";
 
 export type tabsProps = {
   id: number;
@@ -29,7 +29,7 @@ const Dashboard = async () => {
           </div>
         </div>
       </div>
-      <DashboardTabs urls={urls} />
+      <History urls={urls} />
     </div>
   );
 };

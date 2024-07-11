@@ -20,7 +20,7 @@ const DashboardTabs: React.FC<DashboardTabsProps> = ({ urls }) => {
         </div>
       </div>
 
-      <div className="py-8">
+      <div className="">
         {activeTab === "History" ? <History urls={urls} /> : <Settings />}
       </div>
     </div>

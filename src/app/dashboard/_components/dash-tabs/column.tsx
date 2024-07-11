@@ -3,8 +3,9 @@
 import { urls } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
-import QRCode from "react-qr-code";
 import { CellAction } from "./cell-action";
+import QrControll from "./Qr-control";
+import ShortLinkControll from "./short-link-controll";
 // import { QRCode } from "react-qrcode-logo";
 
 // This type is used to define the shape of our data.
@@ -17,7 +18,8 @@ export const columns: ColumnDef<urls>[] = [
   },
   {
     accessorKey: "short_url",
-    header: "Short Link",
+    id: "Short Link",
+    cell: ({ row }) => <ShortLinkControll url={row.original.short_url} />,
   },
   {
     accessorKey: "original_url",
@@ -26,11 +28,7 @@ export const columns: ColumnDef<urls>[] = [
   {
     header: "QR Code",
     id: "actions",
-    cell: ({ row }) => (
-      <div className="">
-        <QRCode value={row.original.original_url} size={40} />
-      </div>
-    ),
+    cell: ({ row }) => <QrControll url={row.original.original_url} />,
   },
   {
     accessorKey: "clicks",

@@ -62,16 +62,6 @@ const CreateUrlDialog = () => {
       toast.error(error.message);
     },
   });
-
-  // Use useCallback to ensure debounce function is stable
-  const debouncedOnShortLinkCheck = useCallback(
-    debounce((value: string) => {
-      form.clearErrors("short_url");
-      onShortLinkCheck(value);
-    }, 500), // Adjust the delay (in milliseconds) as needed
-    []
-  );
-
   const onShortLinkCheck = async (text: string) => {
     startShortLinkChecking(() => {
       isShortLinksExists(text).then((res) => {
@@ -85,6 +75,16 @@ const CreateUrlDialog = () => {
       });
     });
   };
+
+  // Use useCallback to ensure debounce function is stable
+  //@ts-ignore
+  const debouncedOnShortLinkCheck = useCallback(
+    debounce((value: string) => {
+      form.clearErrors("short_url");
+      onShortLinkCheck(value);
+    }, 500), // Adjust the delay (in milliseconds) as needed
+    [form, onShortLinkCheck]
+  );
 
   // handle form submit
   const onSubmit = (values: createUrlSchemaType) => {
@@ -103,7 +103,7 @@ const CreateUrlDialog = () => {
           </DialogTitle>
           <DialogDescription>
             Create a new short link by entering your desired URL below. Click
-            'Save' to generate your shortened link.
+            &apos;Save&apos; to generate your shortened link.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -115,7 +115,7 @@ const CreateUrlDialog = () => {
                 <FormItem>
                   <Input {...field} placeholder="Title" />
                   <FormDescription>
-                    This is your short link's title (required).
+                    This is your short link&apos;s title (required).
                   </FormDescription>
                 </FormItem>
               )}

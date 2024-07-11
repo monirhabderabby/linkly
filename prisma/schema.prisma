@@ -26,3 +26,20 @@ model urls {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
+
+model history {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String
+  day     Int
+  month   Int
+  year    Int
+  clicks  Int
+  desktop Int
+  mobile  Int
+  os      Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, day, month, year])
+}
