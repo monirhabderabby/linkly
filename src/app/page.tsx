@@ -1,10 +1,12 @@
 import Form from "@/components/form";
 import { CircleHelp } from "lucide-react";
+import Image from "next/image";
+import banner from "../../public/linkly.webp";
 
 export default function Home() {
   return (
-    <main className="container">
-      <section className="mt-[100px] w-full flex flex-col justify-center items-center space-y-6">
+    <main className="container min-h-screen">
+      <section className="mt-[60px] min-h-screen w-full flex flex-col lg:justify-center items-center space-y-6 ">
         <h1 className="text-3xl gradient font-extrabold text-center">
           Shorten Your Loooong Links : )
         </h1>
@@ -23,6 +25,16 @@ export default function Home() {
             Register Now to enjoy Unlimited usage{" "}
             <CircleHelp className="w-4 h-4" />
           </p>
+        </div>
+
+        <div className="w-full lg:w-5/6 h-[220px] md:h-[400px] lg:h-[700px] relative">
+          <Image
+            src={banner}
+            alt="banner"
+            fill
+            className="border-2 rounded-md md:mt-6 lg:mt-12"
+            placeholder="blur"
+          />
         </div>
       </section>
     </main>

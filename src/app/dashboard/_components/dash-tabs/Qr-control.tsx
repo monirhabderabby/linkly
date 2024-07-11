@@ -1,5 +1,5 @@
 "use client";
-import { QRCode } from "react-qrcode-logo";
+import QRCode from "react-qr-code";
 
 const QrControll = ({ url }: { url: string }) => {
   return (

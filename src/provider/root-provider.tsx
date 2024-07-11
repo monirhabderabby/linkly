@@ -15,7 +15,9 @@ const RootProvider = ({ children }: { children: ReactNode }) => {
         enableSystem
         disableTransitionOnChange
       >
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          <div className="min-h-screen overflow-y-auto">{children}</div>
+        </TooltipProvider>
 
         <Toaster />
       </ThemeProvider>
