@@ -27,19 +27,34 @@ model urls {
   updatedAt    DateTime @updatedAt
 }
 
-model history {
+model deviceHistory {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   userId  String
+  urlsId  String @db.ObjectId
   day     Int
   month   Int
   year    Int
-  clicks  Int
   desktop Int
   mobile  Int
-  os      Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([userId, day, month, year])
+}
+
+model countryHistory {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  urlsId  String @db.ObjectId
+  userId  String
+  day     Int
+  month   Int
+  year    Int
+  country String
+  clicks  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([country, urlsId, userId, day, month, year])
 }

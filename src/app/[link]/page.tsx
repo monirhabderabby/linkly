@@ -1,24 +1,16 @@
-import prisma from "@/lib/db";
-import { currentUser } from "@clerk/nextjs/server";
+import { storeClick } from "@/actions/store_click";
+import Redirect from "./_component/redirect";
 
 const Page = async ({ params }: { params: { link: string } }) => {
-  const user = await currentUser();
-  const url = await prisma.urls.findUnique({
-    where: {
-      userId: user?.id,
-      short_url: params.link,
-    },
-    select: {
-      original_url: true,
-    },
-  });
+  const url = await storeClick(params.link);
 
   if (!url) {
     throw new Error("URL not found");
   }
+
   return (
     <div className="container h-[calc(100vh-80px)] flex justify-center items-center">
-      {url.original_url}
+      <Redirect url={url} />
     </div>
   );
 };
