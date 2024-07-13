@@ -1,5 +1,6 @@
 "use server";
 
+import { getUsersCountry, isMobileDevice } from "@/helper/detection";
 import prisma from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -26,17 +27,14 @@ export const storeClick = async (shortUrl: string) => {
   }
 
   try {
-    const response = await fetch(
-      "https://api.ipgeolocation.io/ipgeo?apiKey=b921c07e5869442398bf44c1018135dc",
-      {
-        method: "GET",
-      }
-    );
-    const data = await response.json();
-    const country = data.country_name;
-    console.log(country);
-    const res = parser.getResult();
-    const device = res.device.type || "desktop";
+    // DEVICE & LOCATION DETECT
+    let device;
+    if (isMobileDevice()) {
+      device = "mobile";
+    } else {
+      device = "desktop";
+    }
+    const country = await getUsersCountry();
 
     // GET TIME INFO
     const month = new Date().getMonth() + 1;
@@ -109,11 +107,7 @@ export const storeClick = async (shortUrl: string) => {
       },
     });
 
-    const result = await prisma.$transaction([
-      deviceUpdate,
-      countryUpdate,
-      urlsUpdate,
-    ]);
+    await prisma.$transaction([deviceUpdate, countryUpdate, urlsUpdate]);
 
     return urls?.original_url;
   } catch (error: any) {
