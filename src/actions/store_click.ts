@@ -23,7 +23,7 @@ export const storeClick = async (shortUrl: string) => {
   });
 
   if (!urls) {
-    throw new Error("URL not found");
+    throw new Error("URL not found. Please provide a valid URL.");
   }
 
   try {

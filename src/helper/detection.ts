@@ -12,7 +12,6 @@ export async function getUsersCountry() {
     );
     const data = await response.json();
     const country = data.country_name;
-    console.log(country);
 
     return country;
   } catch (error: any) {

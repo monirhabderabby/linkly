@@ -5,7 +5,7 @@ const Page = async ({ params }: { params: { link: string } }) => {
   const url = await storeClick(params.link);
 
   if (!url) {
-    throw new Error("URL not found");
+    throw new Error("URL not found. Please provide a valid URL.");
   }
 
   return (
