@@ -1,28 +1,46 @@
 "use client";
 
+import useDeviceDetect from "@/hooks/useDeviceDetect";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { BarLoader } from "react-spinners";
+import { toast } from "sonner";
 
 interface Props {
-  url?: string;
+  shortUrl: string;
 }
-const Redirect = ({ url }: Props) => {
-  // const { isLoading, data } = useQuery({
-  //   queryKey: [shortUrl],
-  //   queryFn: () =>
-  //     fetch(`/api/store_click?shorturl=${shortUrl}`).then((res) => res.json()),
-  // });
+
+const Redirect = ({ shortUrl }: Props) => {
+  const device = useDeviceDetect();
+
+  const { isLoading, data, error } = useQuery<string>({
+    queryKey: [device, shortUrl],
+    queryFn: () =>
+      fetch(`/api/clicked?shortUrl=${shortUrl}&device=${device}`).then((res) =>
+        res.json()
+      ),
+  });
   useEffect(() => {
-    window.location.assign(url as string);
-  }, []);
+    if (data) {
+      window.location.assign(data as string);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error?.message);
+    }
+  }, [error]);
   return (
     <>
-      <div>
-        {" "}
-        <BarLoader width={"100%"} color="#36d7b7" />
-        <br />
-        Redirecting...
-      </div>
+      {isLoading && (
+        <div>
+          {" "}
+          <BarLoader width={"100%"} color="#36d7b7" />
+          <br />
+          Redirecting...
+        </div>
+      )}
     </>
   );
 };

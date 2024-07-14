@@ -1,7 +1,3 @@
-export function isMobileDevice() {
-  return /Mobi|Android/i.test(navigator.userAgent);
-}
-
 export async function getUsersCountry() {
   try {
     const response = await fetch(
@@ -18,4 +14,8 @@ export async function getUsersCountry() {
     console.log("FILE:detection.ts, ", error.message);
     return "Bangladesh";
   }
+}
+
+export function isMobileDevice() {
+  return /Mobi|Android/i.test(navigator.userAgent);
 }
