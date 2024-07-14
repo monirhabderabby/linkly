@@ -21,7 +21,7 @@ const Redirect = ({ shortUrl }: Props) => {
       ),
   });
   useEffect(() => {
-    if (data) {
+    if (!isLoading && !error && data) {
       window.location.assign(data as string);
     }
   }, [data]);

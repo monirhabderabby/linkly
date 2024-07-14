@@ -15,7 +15,3 @@ export async function getUsersCountry() {
     return "Bangladesh";
   }
 }
-
-export function isMobileDevice() {
-  return /Mobi|Android/i.test(navigator.userAgent);
-}

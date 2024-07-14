@@ -19,8 +19,6 @@ export async function GET(req: Request, res: Response) {
     return Response.json({ error: "Invalid URL Params" }, { status: 400 });
   }
 
-  console.log("@@device", device);
-
   // find the url based on the shortUrl
   const url = await prisma.urls.findUnique({
     where: {
@@ -108,10 +106,19 @@ export async function GET(req: Request, res: Response) {
       },
     });
 
-    await prisma.$transaction([deviceUpdate, countryUpdate, urlsUpdate]);
+    const result = await prisma.$transaction([
+      deviceUpdate,
+      countryUpdate,
+      urlsUpdate,
+    ]);
 
-    return Response.json(url?.original_url);
+    if (result) {
+      return Response.json(url?.original_url);
+    } else {
+      return Response.json({ error: "Something went wrong" }, { status: 500 });
+    }
   } catch (error: any) {
     console.log(error.message);
+    return Response.json({ error: error.message }, { status: 500 });
   }
 }
